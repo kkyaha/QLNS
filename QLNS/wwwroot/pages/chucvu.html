@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Chức vụ</title>
+    <link rel="stylesheet" href="../css/site.css">
+    <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="../index.html">🏠 Trang chủ</a></li>
+                <li><a href="nhanvien.html">👤 Nhân viên</a></li>
+                <li><a href="chamcong.html">🕒 Chấm công</a></li>
+                <li><a href="phongban.html">🏢 Phòng ban</a></li>
+                <li><a href="chucvu.html" class="active">💼 Chức vụ</a></li>
+                <li><a href="luong.html">💰 Lương</a></li>
+            </ul>
+        </aside>
+
+        <!-- Nội dung chính -->
+        <main class="content">
+            <h1>Quản lý Chức vụ</h1>
+            
+            <!-- Form thêm/sửa chức vụ -->
+            <div class="card">
+                <h2 id="formTitle">Thêm chức vụ mới</h2>
+                <form id="chucVuForm">
+                    <input type="hidden" id="editIdNv" value="">
+                    <div class="form-group">
+                        <label for="idNv">ID Nhân viên:</label>
+                        <input type="number" id="idNv" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tenChucVu">Tên chức vụ:</label>
+                        <input type="text" id="tenChucVu">
+                    </div>
+                    <div class="form-group">
+                        <label for="maPhongBanChucVu">Mã phòng ban:</label>
+                        <input type="number" id="maPhongBanChucVu">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">Hủy</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tìm kiếm chức vụ theo nhân viên -->
+            <div class="card">
+                <h2>Tìm kiếm chức vụ</h2>
+                <div class="form-group">
+                    <label for="searchIdNv">Tìm theo ID Nhân viên:</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="search" id="searchIdNv" placeholder="Nhập ID nhân viên">
+                        <button type="button" class="btn btn-info" onclick="searchChucVu()">Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Danh sách chức vụ -->
+            <div class="card">
+                <h2>Thông tin chức vụ</h2>
+                <div id="chucVuInfo" class="info-box">
+                    <p>Vui lòng tìm kiếm chức vụ theo ID nhân viên</p>
+                </div>
+                <div id="chucVuActions" style="margin-top: 15px; display: none;">
+                    <button type="button" class="btn btn-danger" onclick="deleteChucVuById()">Xóa chức vụ</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/chucvu.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Nhân viên</title>
+    <link rel="stylesheet" href="../css/site.css">
+    <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="../index.html">🏠 Trang chủ</a></li>
+                <li><a href="nhanvien.html" class="active">👤 Nhân viên</a></li>
+                <li><a href="chamcong.html">🕒 Chấm công</a></li>
+                <li><a href="phongban.html">🏢 Phòng ban</a></li>
+                <li><a href="chucvu.html">💼 Chức vụ</a></li>
+                <li><a href="luong.html">💰 Lương</a></li>
+            </ul>
+        </aside>
+
+        <!-- Nội dung chính -->
+        <main class="content">
+            <h1>Quản lý Nhân viên</h1>
+            
+            <!-- Form thêm/sửa nhân viên -->
+            <div class="card">
+                <h2 id="formTitle">Thêm nhân viên mới</h2>
+                <form id="nhanVienForm">
+                    <input type="hidden" id="editMaNv" value="">
+                    <div class="form-group">
+                        <label for="maNv">Mã nhân viên:</label>
+                        <input type="text" id="maNv" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hoTen">Họ tên:</label>
+                        <input type="text" id="hoTen" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ngaySinh">Ngày sinh:</label>
+                        <input type="date" id="ngaySinh">
+                    </div>
+                    <div class="form-group">
+                        <label for="sdt">Số điện thoại:</label>
+                        <input type="tel" id="sdt">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="maPhongBan">Mã phòng ban:</label>
+                        <input type="number" id="maPhongBan">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">Hủy</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Danh sách nhân viên -->
+            <div class="card">
+                <h2>Danh sách nhân viên</h2>
+                <div class="table-container">
+                    <table id="nhanVienTable">
+                        <thead>
+                            <tr>
+                                <th>Mã NV</th>
+                                <th>Họ tên</th>
+                                <th>Ngày sinh</th>
+                                <th>SĐT</th>
+                                <th>Email</th>
+                                <th>Mã PB</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nhanVienTableBody">
+                            <!-- Dữ liệu sẽ được load từ API -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/nhanvien.js"></script>
+</body>
+</html>
+
+

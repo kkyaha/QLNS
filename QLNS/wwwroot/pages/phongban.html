@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Phòng ban</title>
+    <link rel="stylesheet" href="../css/site.css">
+    <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="../index.html">🏠 Trang chủ</a></li>
+                <li><a href="nhanvien.html">👤 Nhân viên</a></li>
+                <li><a href="chamcong.html">🕒 Chấm công</a></li>
+                <li><a href="phongban.html" class="active">🏢 Phòng ban</a></li>
+                <li><a href="chucvu.html">💼 Chức vụ</a></li>
+                <li><a href="luong.html">💰 Lương</a></li>
+            </ul>
+        </aside>
+
+        <!-- Nội dung chính -->
+        <main class="content">
+            <h1>Quản lý Phòng ban</h1>
+            
+            <!-- Form thêm/sửa phòng ban -->
+            <div class="card">
+                <h2 id="formTitle">Thêm phòng ban mới</h2>
+                <form id="phongBanForm">
+                    <input type="hidden" id="editMaPhongBan" value="">
+                    <div class="form-group">
+                        <label for="tenPhong">Tên phòng ban:</label>
+                        <input type="text" id="tenPhong" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="soLuongNv">Số lượng nhân viên:</label>
+                        <input type="number" id="soLuongNv" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="maTruongPhong">Mã trưởng phòng:</label>
+                        <input type="number" id="maTruongPhong">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">Hủy</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Danh sách phòng ban -->
+            <div class="card">
+                <h2>Danh sách phòng ban</h2>
+                <div class="table-container">
+                    <table id="phongBanTable">
+                        <thead>
+                            <tr>
+                                <th>Mã PB</th>
+                                <th>Tên phòng ban</th>
+                                <th>Số lượng NV</th>
+                                <th>Mã trưởng phòng</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="phongBanTableBody">
+                            <!-- Dữ liệu sẽ được load từ API -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/phongban.js"></script>
+</body>
+</html>
+
+

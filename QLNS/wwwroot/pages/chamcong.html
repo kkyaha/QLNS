@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chấm công</title>
+    <link rel="stylesheet" href="../css/site.css">
+    <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="../index.html">🏠 Trang chủ</a></li>
+                <li><a href="nhanvien.html">👤 Nhân viên</a></li>
+                <li><a href="chamcong.html" class="active">🕒 Chấm công</a></li>
+                <li><a href="phongban.html">🏢 Phòng ban</a></li>
+                <li><a href="chucvu.html">💼 Chức vụ</a></li>
+                <li><a href="luong.html">💰 Lương</a></li>
+            </ul>
+        </aside>
+
+        <!-- Nội dung chính -->
+        <main class="content">
+            <h1>Chấm công</h1>
+            
+            <!-- Form chấm công -->
+            <div class="card">
+                <h2>Chấm công nhân viên</h2>
+                <form id="chamCongForm">
+                    <div class="form-group">
+                        <label for="maNvChamCong">Mã nhân viên:</label>
+                        <input type="text" id="maNvChamCong" required placeholder="Nhập mã nhân viên">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-success" onclick="checkIn()">Check-in</button>
+                        <button type="button" class="btn btn-warning" onclick="checkOut()">Check-out</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Thông tin chấm công hôm nay -->
+            <div class="card">
+                <h2>Thông tin chấm công</h2>
+                <div id="chamCongInfo" class="info-box">
+                    <p>Vui lòng nhập mã nhân viên và chọn Check-in hoặc Check-out</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/chamcong.js"></script>
+</body>
+</html>
+
+
