@@ -1,0 +1,48 @@
+﻿# Nuget packages
+# Bỏ qua các gói được tải về, chúng sẽ được phục hồi bằng lệnh dotnet restore
+*.nupkg
+*.symbols.nupkg
+
+# Thư mục Build (QUAN TRỌNG NHẤT)
+# Đây là nơi chứa các file .dll và .exe đã được biên dịch
+# Bạn đã tải lên các file này, ví dụ: QLNS/bin/Debug/net8.0/QLNS.dll
+**/[Bb]in/
+**/[Oo]bj/
+
+# Tệp cài đặt của User (Rất quan trọng)
+# Chứa cài đặt riêng của máy bạn, không nên chia sẻ
+# Ví dụ: QLNS/QLNS.csproj.user
+*.user
+*.suo
+*.userprefs
+
+# Tệp cài đặt khởi chạy Local
+# Chứa cấu hình chạy dự án trên máy của bạn (ví dụ: cổng port)
+# Ví dụ: QLNS/Properties/launchSettings.json
+**/Properties/launchSettings.json
+
+# Tệp cài đặt môi trường Development
+# Thường chứa chuỗi kết nối local hoặc khóa bí mật
+# Ví dụ: QLNS/appsettings.Development.json
+**/appsettings.Development.json
+
+# Thư mục IDE và Tooling
+# Cấu hình riêng của Visual Studio hoặc VS Code
+.vs/
+.vscode/
+
+# Tệp do Hệ điều hành tạo ra
+# (Windows)
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+# (macOS)
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Tệp log và các tệp tạm thời khác
+*.log
+*.tmp
+*.temp
