@@ -40,19 +40,59 @@ namespace QLNS.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] LoginDTO dto)
         {
+            // Kiểm tra dữ liệu đầu vào
+            if (dto == null)
+                return BadRequest("Dữ liệu không hợp lệ");
+
+            // Trim và validate tên đăng nhập
+            if (string.IsNullOrWhiteSpace(dto.TenDangNhap))
+                return BadRequest("Tên đăng nhập không được để trống");
+
+            dto.TenDangNhap = dto.TenDangNhap.Trim();
+
+            if (dto.TenDangNhap.Length < 3)
+                return BadRequest("Tên đăng nhập phải có ít nhất 3 ký tự");
+
+            if (dto.TenDangNhap.Length > 50)
+                return BadRequest("Tên đăng nhập không được vượt quá 50 ký tự");
+
+            // Kiểm tra định dạng tên đăng nhập (chỉ cho phép chữ, số, dấu gạch dưới)
+            if (!System.Text.RegularExpressions.Regex.IsMatch(dto.TenDangNhap, @"^[a-zA-Z0-9_]+$"))
+                return BadRequest("Tên đăng nhập chỉ được chứa chữ cái, số và dấu gạch dưới");
+
+            // Validate mật khẩu
+            if (string.IsNullOrWhiteSpace(dto.MatKhau))
+                return BadRequest("Mật khẩu không được để trống");
+
+            if (dto.MatKhau.Length < 6)
+                return BadRequest("Mật khẩu phải có ít nhất 6 ký tự");
+
+            if (dto.MatKhau.Length > 100)
+                return BadRequest("Mật khẩu không được vượt quá 100 ký tự");
+
+            // Kiểm tra tên đăng nhập đã tồn tại
             if (dbContext.TaiKhoans.Any(u => u.TenDangNhap == dto.TenDangNhap))
                 return BadRequest("Tên đăng nhập đã tồn tại");
 
+            // Tạo tài khoản mới
             var taiKhoan = new TaiKhoan
             {
                 TenDangNhap = dto.TenDangNhap,
                 MatKhau = HashPassword(dto.MatKhau),
             };
 
-            dbContext.TaiKhoans.Add(taiKhoan);
-            dbContext.SaveChanges();
+            try
+            {
+                dbContext.TaiKhoans.Add(taiKhoan);
+                dbContext.SaveChanges();
 
-            return Ok("Đăng ký thành công");
+                return Ok("Đăng ký thành công");
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi (có thể thêm logging service ở đây)
+                return StatusCode(500, "Có lỗi xảy ra khi đăng ký. Vui lòng thử lại sau.");
+            }
         }
 
         // 🔹 Đăng nhập + JWT

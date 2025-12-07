@@ -98,7 +98,7 @@ function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("tenDangNhap");
-    window.location.reload();
+    window.location.href = "/pages/login.html";
 }
 
 /**

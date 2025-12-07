@@ -2,16 +2,14 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập - Hệ thống quản lý nhân sự</title>
+    <title>Đăng ký - Hệ thống quản lý nhân sự</title>
     <link rel="stylesheet" href="/css/site.css">
     <style>
+        /* [COPY & PASTE TỪ TRANG LOGIN] - Đảm bảo đồng bộ 100% */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Màu nền Gradient tím/xanh */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,7 +18,8 @@
             padding: 20px;
         }
 
-        .login-box {
+        /* Đổi tên class thành register-box nhưng giữ nguyên style của login-box */
+        .register-box {
             background: #fff;
             padding: 40px;
             border-radius: 16px;
@@ -29,14 +28,14 @@
             max-width: 400px;
         }
 
-            .login-box h2 {
+            .register-box h2 {
                 text-align: center;
                 margin-bottom: 30px;
                 color: #333;
                 font-size: 28px;
             }
 
-            .login-box input {
+            .register-box input {
                 width: 100%;
                 padding: 14px;
                 margin: 10px 0;
@@ -47,40 +46,57 @@
                 transition: border-color 0.3s;
             }
 
-                .login-box input:focus {
+                .register-box input:focus {
                     outline: none;
-                    border-color: #667eea;
+                    border-color: #667eea; /* Màu tím chủ đạo khi focus */
                 }
 
-            .login-box button {
+            .register-box button {
                 width: 100%;
                 padding: 14px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Nút Gradient */
                 border: none;
                 color: #fff;
                 font-weight: bold;
                 font-size: 16px;
                 border-radius: 8px;
                 cursor: pointer;
-                margin-top: 10px;
+                margin-top: 20px; /* Tăng khoảng cách một chút */
                 transition: transform 0.2s, box-shadow 0.2s;
             }
 
-                .login-box button:hover {
+                .register-box button:hover {
                     transform: translateY(-2px);
                     box-shadow: 0px 5px 15px rgba(102, 126, 234, 0.4);
                 }
 
-                .login-box button:active {
+                .register-box button:active {
                     transform: translateY(0);
                 }
 
-                .login-box button:disabled {
+                .register-box button:disabled {
                     opacity: 0.6;
                     cursor: not-allowed;
                     transform: none;
                 }
 
+        /* Style cho Link quay lại đăng nhập */
+        .link-login {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #667eea; /* Màu tím nhạt */
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+            .link-login:hover {
+                color: #764ba2; /* Màu tím đậm khi hover */
+                text-decoration: underline;
+            }
+
+        /* Các style phụ trợ (Loading, Error) giữ nguyên */
         .error {
             color: #d32f2f;
             margin-top: 15px;
@@ -110,16 +126,6 @@
             margin: 0 auto;
         }
 
-        .link-register {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #667eea; /* Màu tím nhạt */
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -132,22 +138,26 @@
     </style>
 </head>
 <body>
-    <div class="login-box">
-        <h2>Đăng nhập</h2>
-        <form id="loginForm">
+    <div class="register-box">
+        <h2>Đăng Ký</h2>
+        <form id="registerForm">
             <input type="text" id="username" placeholder="Tên đăng nhập" required autocomplete="username">
-            <input type="password" id="password" placeholder="Mật khẩu" required autocomplete="current-password">
-            <button type="submit" id="submitBtn">Đăng nhập</button>
+            <input type="password" id="password" placeholder="Mật khẩu" required autocomplete="new-password">
+            <input type="password" id="confirmPassword" placeholder="Nhập lại mật khẩu" required autocomplete="new-password">
+
+            <button type="submit" id="submitBtn">Đăng Ký Ngay</button>
         </form>
+
         <div class="loading" id="loading">
             <div class="spinner"></div>
         </div>
+
         <p class="error" id="errorMessage"></p>
 
-        <a href="register.html" class="link-register">Chưa có tài khoản? Đăng ký</a>
+        <a href="/pages/login.html" class="link-login">Đã có tài khoản? Đăng nhập</a>
     </div>
 
     <script src="/js/auth.js"></script>
-    <script src="/js/login.js"></script>
+    <script src="/js/register.js"></script>
 </body>
 </html>
