@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="../css/site.css">
     <link rel="stylesheet" href="../css/pages.css">
 </head>
+
 <body>
     <div class="container">
         <!-- Sidebar -->
@@ -14,31 +16,53 @@
             <h2>Menu</h2>
             <ul>
                 <li><a href="../index.html">🏠 Trang chủ</a></li>
-                <li><a href="nhanvien.html">👤 Nhân viên</a></li>
+                <li class="restricted admin-only"><a href="nhanvien.html">👤 Nhân viên</a></li>
                 <li><a href="chamcong.html">🕒 Chấm công</a></li>
-                <li><a href="phongban.html">🏢 Phòng ban</a></li>
-                <li><a href="chucvu.html">💼 Chức vụ</a></li>
-                <li><a href="luong.html" class="active">💰 Lương</a></li>
+                <li class="restricted admin-only"><a href="phongban.html">🏢 Phòng ban</a></li>
+                <li class="restricted admin-only"><a href="chucvu.html">💼 Chức vụ</a></li>
+                <li class="restricted admin-only"><a href="luong.html" class="active">💰 Lương</a></li>
+                <li><a href="todolist.html">✅ ToDo List</a></li>
             </ul>
         </aside>
 
         <!-- Nội dung chính -->
         <main class="content">
             <h1>Quản lý Lương</h1>
-            
+
             <div class="card">
-                <h2>Thông tin</h2>
-                <div class="info-box">
-                    <p>Chức năng quản lý lương đang được phát triển.</p>
-                    <p>Controller LuongController hiện chưa có các endpoint được triển khai.</p>
+                <div class="card-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Bảng Lương</h2>
+                    <!-- Placeholder for future functionality: Add new Salary record -->
+                    <!-- <button class="btn btn-primary" onclick="openAddModal()">+ Thêm mới</button> -->
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Nhân viên</th>
+                                <th>Lương CB</th>
+                                <th>Giờ OT</th>
+                                <th>Hệ số OT</th>
+                                <th>Tổng OT</th>
+                                <th>Thực nhận</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="salaryTableBody">
+                            <!-- Data loaded via JS -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </main>
     </div>
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
+    <script src="../js/luong.js"></script>
 </body>
+
 </html>
-
-
-
-
-

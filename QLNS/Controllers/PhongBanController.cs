@@ -14,11 +14,25 @@ namespace QLNS.Controllers
             this.dbContext = dbContext;
         }
 
+        // Helper to check if user is admin (MaVaiTro = 1)
+        private bool IsAdmin()
+        {
+            var roleClaim = User.FindFirst(System.Security.Claims.ClaimTypes.Role);
+            return roleClaim != null && roleClaim.Value == "1";
+        }
+
         [HttpGet]
         public IActionResult GetAllPhongBan()
         {
             var list = dbContext.PhongBans
-                        .Include(pb => pb.NhanViens) // load kèm nhân viên
+                        .Select(pb => new 
+                        {
+                            pb.MaPhongBan,
+                            pb.TenPhong,
+                            pb.SoLuongNv,
+                            pb.MaTruongPhong,
+                            NhanViens = pb.NhanViens.Select(nv => new { nv.MaNv, nv.HoTen }).ToList()
+                        })
                         .ToList();
             return Ok(list);
         }
@@ -27,8 +41,16 @@ namespace QLNS.Controllers
         public IActionResult GetPhongBanById(int maPhongBan)
         {
             var phongBan = dbContext.PhongBans
-                            .Include(pb => pb.NhanViens)
-                            .FirstOrDefault(pb => pb.MaPhongBan == maPhongBan);
+                            .Where(pb => pb.MaPhongBan == maPhongBan)
+                            .Select(pb => new 
+                            {
+                                pb.MaPhongBan,
+                                pb.TenPhong,
+                                pb.SoLuongNv,
+                                pb.MaTruongPhong,
+                                NhanViens = pb.NhanViens.Select(nv => new { nv.MaNv, nv.HoTen }).ToList()
+                            })
+                            .FirstOrDefault();
             if (phongBan == null) return NotFound("Phòng ban không tồn tại");
             return Ok(phongBan);
         }
@@ -36,6 +58,8 @@ namespace QLNS.Controllers
         [HttpPost]
         public IActionResult AddPhongBan([FromBody] PhongBan phongBan)
         {
+            if (!IsAdmin()) return Forbid("Chỉ Admin mới có quyền thêm phòng ban");
+
             if (phongBan == null) return BadRequest("Dữ liệu không hợp lệ");
             dbContext.PhongBans.Add(phongBan);
             dbContext.SaveChanges();
@@ -45,6 +69,8 @@ namespace QLNS.Controllers
         [HttpPut("{maPhongBan}")]
         public IActionResult UpdatePhongBan(int maPhongBan, [FromBody] PhongBan update)
         {
+            if (!IsAdmin()) return Forbid("Chỉ Admin mới có quyền sửa phòng ban");
+
             var pb = dbContext.PhongBans.FirstOrDefault(x => x.MaPhongBan == maPhongBan);
             if (pb == null) return NotFound("Phòng ban không tồn tại");
 
@@ -59,6 +85,8 @@ namespace QLNS.Controllers
         [HttpDelete("{maPhongBan}")]
         public IActionResult DeletePhongBan(int maPhongBan)
         {
+            if (!IsAdmin()) return Forbid("Chỉ Admin mới có quyền xóa phòng ban");
+
             var pb = dbContext.PhongBans.FirstOrDefault(x => x.MaPhongBan == maPhongBan);
             if (pb == null) return NotFound("Phòng ban không tồn tại");
 

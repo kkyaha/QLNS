@@ -1,6 +1,6 @@
 // Main page authentication and login handling
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     checkAuthentication();
 });
 
@@ -24,13 +24,13 @@ function showMainContent() {
     const mainContainer = document.getElementById("mainContainer");
     if (mainContainer) {
         mainContainer.classList.remove("hidden");
-        
+
         // Hiển thị thông tin user
         const user = getCurrentUser();
         if (user.tenDangNhap) {
             const usernameDisplay = document.getElementById("usernameDisplay");
             const welcomeUsername = document.getElementById("welcomeUsername");
-            
+
             if (usernameDisplay) {
                 usernameDisplay.textContent = user.tenDangNhap;
             }
@@ -38,6 +38,8 @@ function showMainContent() {
                 welcomeUsername.textContent = user.tenDangNhap;
             }
         }
+
+
     }
 }
 

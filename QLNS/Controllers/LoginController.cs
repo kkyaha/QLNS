@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QLNS.DTOs;
 using QLNS.Models;
@@ -99,19 +100,46 @@ namespace QLNS.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginDTO dto)
         {
-            var user = dbContext.TaiKhoans.FirstOrDefault(u => u.TenDangNhap == dto.TenDangNhap);
+            var user = dbContext.TaiKhoans
+                .Include(u => u.MaVaiTroNavigation)
+                .FirstOrDefault(u => u.TenDangNhap == dto.TenDangNhap);
+
             if (user == null || !VerifyPassword(dto.MatKhau, user.MatKhau))
                 return Unauthorized("Sai tên đăng nhập hoặc mật khẩu");
 
             // Sinh JWT
             var token = GenerateJwtToken(user);
 
+            // Calculate permissions
+            bool canAssign = false;
+            if (user.MaVaiTro == 1)
+            {
+                canAssign = true;
+            }
+            else
+            {
+                // Check if user is Trưởng phòng (Head of Dept)
+                bool isTruongPhong = dbContext.PhongBans.Any(pb => pb.MaTruongPhong == user.IdNv);
+                
+                // Check if user has "Quản lý" or "Trưởng phòng" in position title
+                // Note: ChucVu has IdNv as PK
+                var chucVu = dbContext.ChucVus.FirstOrDefault(cv => cv.IdNv == user.IdNv);
+                bool isQuanLy = chucVu != null && !string.IsNullOrEmpty(chucVu.TenChucVu) && 
+                                (chucVu.TenChucVu.ToLower().Contains("quản lý") || 
+                                 chucVu.TenChucVu.ToLower().Contains("trưởng phòng"));
+
+                canAssign = isTruongPhong || isQuanLy;
+            }
+
             return Ok(new
             {
                 Message = "Đăng nhập thành công",
                 token = token,
                 UserId = user.IdNv,
-                TenDangNhap = user.TenDangNhap
+                TenDangNhap = user.TenDangNhap,
+                MaVaiTro = user.MaVaiTro,
+                TenVaiTro = user.MaVaiTroNavigation?.TenVaiTro,
+                CanAssign = canAssign
             });
         }
 
@@ -120,11 +148,16 @@ namespace QLNS.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.TenDangNhap),
                 new Claim("UserId", user.IdNv.ToString())
             };
+
+            if (user.MaVaiTro.HasValue)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, user.MaVaiTro.ToString()));
+            }
 
             var token = new JwtSecurityToken(
                 issuer: config["Jwt:Issuer"],

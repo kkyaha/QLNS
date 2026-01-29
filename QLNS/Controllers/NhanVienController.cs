@@ -18,9 +18,17 @@ namespace QLNS.Controllers
             
         }
 
+        // Helper to check if user is admin (MaVaiTro = 1)
+        private bool IsAdmin()
+        {
+            var roleClaim = User.FindFirst(System.Security.Claims.ClaimTypes.Role);
+            return roleClaim != null && roleClaim.Value == "1";
+        }
+
         [HttpGet]
         public IActionResult GetAllNhanVien()
         {
+            // Allow all authenticated users to view
             var allNhanVien = dbContext.NhanViens.ToList();
             return Ok(allNhanVien);
         }
@@ -40,10 +48,24 @@ namespace QLNS.Controllers
         [HttpPost]
         public IActionResult AddNhanVien([FromBody] AddNhanVienDTO addNhanVienDTO)
         {
+            if (!IsAdmin()) return Forbid("Chỉ Admin mới có quyền thêm nhân viên");
+
             if (addNhanVienDTO == null)
             {
                 return BadRequest("Dữ liệu không hợp lệ");
             }
+            // Validate MaPhongBan
+            if (addNhanVienDTO.MaPhongBan.HasValue && !dbContext.PhongBans.Any(pb => pb.MaPhongBan == addNhanVienDTO.MaPhongBan))
+            {
+                return BadRequest("Phòng ban không tồn tại");
+            }
+
+            // Validate MaNv unique
+            if (dbContext.NhanViens.Any(nv => nv.MaNv == addNhanVienDTO.MaNv))
+            {
+                return BadRequest("Mã nhân viên đã tồn tại");
+            }
+
             var newNhanVien = new NhanVien
             {
                 HoTen = addNhanVienDTO.HoTen,
@@ -62,6 +84,8 @@ namespace QLNS.Controllers
         [Route("{maNv}")]
         public IActionResult UpdateNhanVien(string maNv, [FromBody] UpdateNhanVienDTO UpdateNhanVienDTO)
         {
+            if (!IsAdmin()) return Forbid("Chỉ Admin mới có quyền sửa thông tin nhân viên");
+
             if (UpdateNhanVienDTO == null)
             {
                 return BadRequest("Dữ liệu không hợp lệ");
@@ -84,6 +108,8 @@ namespace QLNS.Controllers
         [Route("{maNv}")]
         public IActionResult DeleteNhanVien(string maNv)
         {
+            if (!IsAdmin()) return Forbid("Chỉ Admin mới có quyền xóa nhân viên");
+
             var nhanVien = dbContext.NhanViens.FirstOrDefault(nv => nv.MaNv == maNv);
             if (nhanVien == null)
             {

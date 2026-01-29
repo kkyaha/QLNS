@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="../css/site.css">
     <link rel="stylesheet" href="../css/pages.css">
 </head>
+
 <body>
     <div class="container">
         <!-- Sidebar -->
@@ -14,18 +16,19 @@
             <h2>Menu</h2>
             <ul>
                 <li><a href="../index.html">🏠 Trang chủ</a></li>
-                <li><a href="nhanvien.html">👤 Nhân viên</a></li>
+                <li class="restricted admin-only"><a href="nhanvien.html">👤 Nhân viên</a></li>
                 <li><a href="chamcong.html">🕒 Chấm công</a></li>
-                <li><a href="phongban.html">🏢 Phòng ban</a></li>
-                <li><a href="chucvu.html" class="active">💼 Chức vụ</a></li>
-                <li><a href="luong.html">💰 Lương</a></li>
+                <li class="restricted admin-only"><a href="phongban.html">🏢 Phòng ban</a></li>
+                <li class="restricted admin-only"><a href="chucvu.html" class="active">💼 Chức vụ</a></li>
+                <li class="restricted admin-only"><a href="luong.html">💰 Lương</a></li>
+                <li><a href="todolist.html">✅ ToDo List</a></li>
             </ul>
         </aside>
 
         <!-- Nội dung chính -->
         <main class="content">
             <h1>Quản lý Chức vụ</h1>
-            
+
             <!-- Form thêm/sửa chức vụ -->
             <div class="card">
                 <h2 id="formTitle">Thêm chức vụ mới</h2>
@@ -75,7 +78,9 @@
         </main>
     </div>
 
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
     <script src="../js/chucvu.js"></script>
 </body>
-</html>
 
+</html>

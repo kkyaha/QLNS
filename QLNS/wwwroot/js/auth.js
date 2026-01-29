@@ -5,7 +5,7 @@
  */
 function isTokenValid(token) {
     if (!token) return false;
-    
+
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         const exp = payload.exp * 1000; // Convert to milliseconds
@@ -22,7 +22,7 @@ function isTokenValid(token) {
 function getValidToken() {
     const token = localStorage.getItem("token");
     if (!token) return null;
-    
+
     if (isTokenValid(token)) {
         return token;
     } else {
@@ -48,29 +48,41 @@ async function login(username, password) {
     try {
         const response = await fetch("/api/login/login", {
             method: "POST",
-            headers: { 
-                "Content-Type": "application/json" 
+            headers: {
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify({ 
-                tenDangNhap: username.trim(), 
-                matKhau: password 
+            body: JSON.stringify({
+                tenDangNhap: username.trim(),
+                matKhau: password
             })
         });
 
         if (response.ok) {
             const data = await response.json();
-            
+
             // Lưu thông tin vào localStorage
-            if (data.token) {
-                localStorage.setItem("token", data.token);
+            // API returns camelCase by default
+            const token = data.token || data.Token;
+            const userId = data.userId || data.UserId;
+            const username = data.tenDangNhap || data.TenDangNhap;
+            const role = data.maVaiTro || data.MaVaiTro;
+            const canAssign = data.canAssign !== undefined ? data.canAssign : data.CanAssign;
+
+            if (token) {
+                localStorage.setItem("token", token);
             }
-            if (data.UserId) {
-                localStorage.setItem("userId", data.UserId);
+            if (userId) {
+                localStorage.setItem("userId", userId);
             }
-            if (data.TenDangNhap) {
-                localStorage.setItem("tenDangNhap", data.TenDangNhap);
+            if (username) {
+                localStorage.setItem("tenDangNhap", username);
             }
-            
+            if (role) {
+                localStorage.setItem("role", role);
+            }
+            // Store permission flag
+            localStorage.setItem("canAssign", canAssign ? "true" : "false");
+
             return { success: true, data: data };
         } else {
             let errorText = "Sai tài khoản hoặc mật khẩu";
@@ -82,7 +94,7 @@ async function login(username, password) {
             } catch (parseError) {
                 console.error("Lỗi khi đọc phản hồi:", parseError);
             }
-            
+
             return { success: false, error: errorText };
         }
     } catch (error) {
@@ -108,8 +120,21 @@ function getCurrentUser() {
     return {
         userId: localStorage.getItem("userId"),
         tenDangNhap: localStorage.getItem("tenDangNhap"),
+        role: localStorage.getItem("role"),
         token: getValidToken()
     };
+}
+
+/**
+ * Kiểm tra role của user
+ */
+function hasRole(allowedRoles) {
+    const role = localStorage.getItem("role");
+    if (!role) return false;
+
+    // Convert single value to array
+    const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles];
+    return roles.includes(parseInt(role));
 }
 
 /**

@@ -18,13 +18,11 @@ async function loadPhongBan() {
     const token = localStorage.getItem("token");
 
     // 2. (Quan trọng) Kiểm tra xem có token không
-    /*
     if (!token) {
         alert("Bạn chưa đăng nhập!");
         window.location.href = "/login.html"; // Chuyển về trang login
         return;
     }
-    */
 
     // 3. Gọi fetch với header "Authorization"
     try {

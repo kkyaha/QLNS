@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List - Quản lý nhân sự</title>
+    <link rel="stylesheet" href="../css/site.css">
+    <style>
+        .todo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .todo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .add-task-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .add-task-form input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .add-task-form input[type="date"],
+        .add-task-form select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+        }
+
+        .task-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .task-item.completed .task-content {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .task-info {
+            flex: 1;
+        }
+
+        .task-content {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .task-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            gap: 15px;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-check {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-check:hover {
+            background: #27ae60;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+
+        .status-badge {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            background: #e0e0e0;
+        }
+
+        .status-badge.done {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mainContainer" class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="user-info">
+                <div class="username" id="userDisplayName">Xin chào, <span id="usernameDisplay">...</span></div>
+                <button class="logout-btn" onclick="handleLogout()">Đăng xuất</button>
+            </div>
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="../index.html">🏠 Trang chủ</a></li>
+                <li class="restricted admin-only"><a href="nhanvien.html">👤 Nhân viên</a></li>
+                <li><a href="chamcong.html">🕒 Chấm công</a></li>
+                <li class="restricted admin-only"><a href="phongban.html">🏢 Phòng ban</a></li>
+                <li class="restricted admin-only"><a href="chucvu.html">💼 Chức vụ</a></li>
+                <li class="restricted admin-only"><a href="luong.html">💰 Lương</a></li>
+                <li><a href="todolist.html" class="active">✅ ToDo List</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <div class="todo-container">
+                <div class="todo-header">
+                    <h2>Danh sách công việc của tôi</h2>
+                    <span id="taskCount" style="color: #666;">0 công việc</span>
+                </div>
+
+                <div class="add-task-form">
+                    <input type="text" id="newTaskContent" placeholder="Nhập nội dung công việc..." required>
+                    <input type="date" id="newTaskDueDate">
+                    <!-- Dropdown for assigning to other employees -->
+                    <select id="assigneeSelect">
+                        <option value="">-- Tự giao cho mình --</option>
+                        <!-- Options populated by JS -->
+                    </select>
+                    <button class="btn btn-primary" onclick="addTask()">Thêm</button>
+                </div>
+
+                <ul class="task-list" id="taskList">
+                    <!-- Tasks will be loaded here -->
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
+    <script src="../js/todolist.js"></script>
+</body>
+
+</html>

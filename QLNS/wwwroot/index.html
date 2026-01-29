@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +21,7 @@
             background: #fff;
             padding: 40px;
             border-radius: 16px;
-            box-shadow: 0px 10px 40px rgba(0,0,0,0.3);
+            box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.3);
             width: 100%;
             max-width: 400px;
         }
@@ -103,8 +104,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* User info in sidebar */
@@ -143,6 +149,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Main Content (hiển thị khi đã đăng nhập) -->
     <div id="mainContainer" class="container hidden">
@@ -155,11 +162,12 @@
             <h2>Menu</h2>
             <ul>
                 <li><a href="index.html" class="active">🏠 Trang chủ</a></li>
-                <li><a href="pages/nhanvien.html">👤 Nhân viên</a></li>
+                <li class="restricted admin-only"><a href="pages/nhanvien.html">👤 Nhân viên</a></li>
                 <li><a href="pages/chamcong.html">🕒 Chấm công</a></li>
-                <li><a href="pages/phongban.html">🏢 Phòng ban</a></li>
-                <li><a href="pages/chucvu.html">💼 Chức vụ</a></li>
-                <li><a href="pages/luong.html">💰 Lương</a></li>
+                <li class="restricted admin-only"><a href="pages/phongban.html">🏢 Phòng ban</a></li>
+                <li class="restricted admin-only"><a href="pages/chucvu.html">💼 Chức vụ</a></li>
+                <li class="restricted admin-only"><a href="pages/luong.html">💰 Lương</a></li>
+                <li><a href="pages/todolist.html">✅ ToDo List</a></li>
             </ul>
         </aside>
 
@@ -171,6 +179,8 @@
     </div>
 
     <script src="js/auth.js"></script>
+    <script src="js/layout.js"></script>
     <script src="js/index.js"></script>
 </body>
+
 </html>
